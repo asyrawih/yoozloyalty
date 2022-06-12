@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "reward"
+    },
+    {
+        "id": 2,
+        "name": "credit"
+    },
+    {
+        "id": 3,
+        "name": "credit-request"
+    }
+]

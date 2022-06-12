@@ -1,0 +1,6 @@
+{
+    "name": "Schedule Service",
+    "interpreter": "php",
+    "script": "artisan",
+    "args": "schedule:work"
+}

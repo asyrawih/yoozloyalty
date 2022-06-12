@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Requests\Merchant\Calculator;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CreditPointsRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return TRUE;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'amount' => 'required|numeric',
+            'mode' => 'required',
+            'rules' => 'nullable',
+        ];
+    }
+}

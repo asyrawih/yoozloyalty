@@ -1,0 +1,26 @@
+name: 'Customer update expired date'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/website/renew
+    metadata:
+      title: 'APIs for update expired date'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      uuid:
+        name: uuid
+        description: ''
+        required: true
+        example: commodi
+        type: string
+    responses: []
+    responseFields: []

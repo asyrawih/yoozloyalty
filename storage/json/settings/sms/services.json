@@ -1,0 +1,14 @@
+[
+	{
+		"text": "Twilio",
+		"value": "twilio"
+	},
+	{
+		"text": "Digicel SMPP Gateway",
+		"value": "digicel_smpp_gateway"
+	},
+	{
+		"text": "Bmobile SMPP Gateway",
+		"value": "bmobile_smpp_gateway"
+	}
+]

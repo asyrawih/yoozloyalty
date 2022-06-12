@@ -1,0 +1,38 @@
+name: 'Customer Request Credit'
+description: 'APIs for customer request credit'
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/credit-request
+    metadata:
+      title: 'Customer request credit'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+      bill_amount:
+        name: bill_amount
+        description: 'points of request.'
+        required: true
+        example: 17
+        type: integer
+      bill_number:
+        name: bill_number
+        description: 'points of request.'
+        required: true
+        example: 12
+        type: integer
+    responses: []
+    responseFields: []

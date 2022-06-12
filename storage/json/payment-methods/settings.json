@@ -1,0 +1,9 @@
+{
+    "is_active_cheque": true,
+    "is_active_bank_transfer": false,
+    "is_active_lynx": true,
+    "is_active_yooz_pg": false,
+    "is_active_paypal": false,
+    "is_active_stripe": false,
+    "is_active_twocheckout": false
+}

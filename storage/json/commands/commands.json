@@ -1,0 +1,128 @@
+[
+    {
+        "command": "php artisan migrate",
+        "description": "Running Migrations",
+        "script_type": "migration",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "php artisan route:clear",
+        "description": "Clear route",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "php artisan config:clear",
+        "description": "Clear config",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "php artisan view:clear",
+        "description": "Clear View",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "php artisan cache:clear",
+        "description": "Clear Cache",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "php artisan route:clear",
+        "description": "Clear route",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "npm i moment-timezone",
+        "description": "install moment-timezone",
+        "script_type": "console",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan db:seed --class=TimezoneSeeder",
+        "description": "Timezone Seeder",
+        "script_type": "seeder",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan db:seed --class=GiveBusinessWithNullTimezoneDefaultValueSeeder",
+        "description": "Update Business With Null Timezone",
+        "script_type": "seeder",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan update:account_id",
+        "description": "Update account id to correct value",
+        "script_type": "console",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan update:billing_invoice",
+        "description": "Update merchant_name and plan_name column if user_id or plan_id is null.",
+        "script_type": "console",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan restarting:queue",
+        "description": "Regenerate and Restarting New Queue Connection",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan db:seed --class=PointsExpirySeeder",
+        "description": "Points Expiry Seeder",
+        "script_type": "seeder",
+        "command_type": "recurring",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan db:seed --class=RewardSeeder",
+        "description": "Give default date range if null in rewards table",
+        "script_type": "seeder",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan update:customer-history",
+        "description": "Fixed customer points on website",
+        "script_type": "console",
+        "command_type": "one-times",
+        "environtment": "both"
+    },
+    {
+        "command": "npm run dev",
+        "description": "NPM Run development",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "local"
+    },
+    {
+        "command": "pm2 start schedule.json",
+        "description": "Start cron job service",
+        "script_type": "console",
+        "command_type": "recurring",
+        "environtment": "both"
+    },
+    {
+        "command": "php artisan update:customer_expired_date",
+        "description": "Update column customer expired_date if null.",
+        "script_type": "console",
+        "command_type": "one-times",
+        "environtment": "both"
+    }
+]

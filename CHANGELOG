@@ -1,0 +1,261 @@
+# Release Notes
+
+# =================================================================
+# v1.x.x (xx-xx-xxxx)
+# =================================================================
+### Added
+### Fixed
+### Changed
+### Removed
+
+# =================================================================
+# v1.1.5 (22-03-2022)
+# =================================================================
+### Added
+    - #5529 : Redesign --> Merchant Dashbaord --> Reward offer --> edit --> Pop-up (From Horizontal to vertical).
+### Fixed
+    - #3503 : Error message displayed when customer trying to register new account.
+    - #5476 : API Enhancement - add website logo image in API Results.
+    - #5463 : Urgent API enhancement - 10 March 2022.
+    - #5533 : Error happen when trying to create new merchant.
+### Changed
+### Removed
+
+# =================================================================
+# v1.1.4 (17-02-2022)
+# =================================================================
+### Added
+    - #3319 : extend the smtp for merchant panel also so merchant can design the email mechanism-client requirement.
+    - #3826 : [Staff]: There is no way staff to earn point for customer via membership card number.
+    - #3884 : [Merchant Staff][Scan QR]: Ability to scan the QR or barcode using barcode scanner.
+    - #NA   : Add CI/CD.
+    - #4048 : [Admin][Merchants]: Bulk upload merchants via csv/excel.
+    - #4049 : [Admin][Settings][Plans]: Add feature to set unlimited store, staff, and segment.
+    - #4050 : [Admin][Settings]: Add settings to Create/Edit/Delete Account Type Bank.
+    - #4051 : [Admin][Setting][Industries]: Provide facility to upload image for each industry type.
+    - #4094 : [Credit Request]: Need approval for credit request.
+    - #4141 : [Merchant][Customer]: Add Customer Type Wholesale, Retail, Premium, VIP.
+    - #4145 : Merchant Dashboard --> add field --> Minimum Points to Redeem.
+    - #4146 : Merchant dashboard -> Reward offer -> Provide offer download , Bulk upload functionality.
+    - #4147 : [Merchant][Website]: Add limit number of credit transactions of user / day (24 hours).
+    - #4148 : [Merchant][Customer]: Add fields Date of Birth (DOB), Gender (Male / Female), Street Name, City, Country, Card status on customer form.
+    - #4154 : [API][Joined Website]: Add website image on response.
+    - #4221 : [Upload Media][S3 Bucket]: Forbidden issue happen when accessing media that uploaded to s3 bucket.
+    - #4294 : Merchant Dashboard - Create Single Credit request / Bulk Upload via CSV.
+    - #4145 : Merchant Dashboard --> add field --> Minimum Points to Redeem.
+    - #4149 : Merchant dashboard - Birthday SMS.
+### Fixed
+    - #4449 : Enhancements dated - 1 dec 2021.
+    - #4422 : Admin Dashboard --> Merchants Bulk upload --> Allow all fields of merchants can be uploaded via Excel/CSV.
+    - #3812 : [Merchant][Customer]: Expiry point
+    - #3831 : [Merchant][Billing] Update Implement Yooz PG.
+    - #3566 : [Customer]: Customer number auto format.
+    - #3811 : [Merchant][Credit Point Rule]: Credit points calculator enhancement.
+    - #3658 : [Merchant][Offer Listing]: Make the time zone follow the store timezone
+    - #3827 : [Merchant][Staff]: Disable the option to redeem reward via website setting doesn't affect to the staff side.
+    - #3810 : [Staff][Customer List]: Message "No Customer Yet" displayed although customer already in the list.
+    - #3669 : [Staff][Staff hour]: This store is not open if set store hour from PM to AM.
+    - #3915 : [Staff Role]: New role created by admin doesn't work properly.
+    - #3919 : [Merchant] Cannot Save Reward Offer
+    - #3941 : [Staff][Layout] Fix Conflict
+    - #3920 : [Merchant][Reward Offer]: Adjust reward offer timezone
+    - #3954 : [Merchant][Website] Cannot create website
+    - #3952 : [Customer] Error 500 when opening merchant website
+    - #3917 : [Customer][Sign up]: No sign bonus received after successfully sign up to the website.
+    - #3955 : [Staff][Add Customer]: Show password button doesn't have function when trying to add new customer.
+    - #3959 : [Customer]: All button suddenly lose their function after change time zone and get the reward.
+    - #3973 : [Staff][Customer]: Fix Feature.
+    - #3962: [Staff][Login]: Server error message displayed when user trying to open staff login page.
+    - #3980 : [Staff][Scan QR Code]: Scan membership card number will open new tab instead of open credit or reward popup.
+    - #3675 : [Admin][Merchant]: Unable to send broadcast PN.
+    - #3979 : [Customer][Reward]: The reward is displayed in homepage but not displayed in reward page.
+    - #4004 : [Test][Billing System]: Fix Testing Yooz PG.
+    - #4021 : Readme Update.
+    - #4022 : Fixed API for Mobile App.
+    - #4046 : [Admin][Setting][Legal]: Unable to see the content in Frontend.
+    - #4090 : [API][Mobile]: Fixed API, some endpoint get response not correct.
+    - #4189 : [Customer][Sign Up]: Unable to register new account.
+    - #4213 : [API][Industry]: Endpoint response show internal server error.
+    - #4217 : [Merchant][Customers]: Infinite loading displayed when open customer section.
+    - #4253 : [Customer]: The point is not correctly calculated.
+    - #4256 : [Customer]: User will receive wrong notification after credit point.
+    - #4257 : [Customer][Credit][Redeem]: The error message displayed in console when accessing redeem and credit section.
+    - #4279 : [Customer][Expired Point]: Expired point is not correctly calculated after the point already expired.
+    - #4278 : [Admin][Bank Account Type]: Inactive account type still can be selected when edit or create bank account.
+    - #4419 : Spell Check - Make it --> Refresh
+    - #4421 : Points credit Request --> Bulk upload --> add one more column i.e Transaction date in sample file and upload method.
+    - #4423 : Redeem API , when Redemption value is more than available Points , show Proper message through API "Not Enough Points to redeem this offer".
+    - #4420 : Bug - Redeem Transaction is succesful , it reflects in backend , but amount is not debited from main Pool Balance of points.
+    - #4450 : Allow to delete Point credit request.
+    - #4452 : Import credit request issues.
+    - #4639 : Fix error while customer limit is unlimited.
+    - #4646 : Fix infinite loading while file failed to upload.
+    - #4986 : Customer: Fix column expired_date is null.
+### Changed
+    - #3817 : Upgrade to Latest Version
+    - #3916 : [Staff Role]: Change the default permission of supervisor.
+    - #4006 : [Merchant][Credit Point Rule]: Change the label in step mode option.
+    - #4108 : [Barcode]: Implementation Base64 Encryption and Decryption for the QR Code.
+    - #4142 : [Merchant][Redeem Transaction]: Rename to Redemption Multiplier.
+    - #4155 : Change media disk from local to AWS S3.
+    - #4295 : Create a New field - Receipt Number - Points credit request.
+    - #4422 : Admin Dashboard --> Merchants Bulk upload --> Allow all fields of merchants can be uploaded via Excel/CSV.
+### Removed
+    - #3883 : [Merchant][Credit Rule][Step mode]: Remove the rate type
+
+# =================================================================
+# v1.1.3 (09-09-2021)
+# =================================================================
+### Added
+    - #3469 : Show Yooz Logo in Admin Dashboard and Merchant Dashboard
+    - #3642 : [Merchant][Profile]: The phone number error message displayed when user input wrong password.
+    - #3645 : [Staff]: Empower cashier to onboard new customers similar to Merchant Dashboard.
+    - #3577 : [Merchant][Customer]: Ability to use partial points.
+    - #3561 : [Admin][Merchant]: Delete merchant validation step.
+### Fixed
+    - #NA   : Fix search customer on staff dashboard.
+    - #3800 : [Merchant][Website]: Unable to save after editing the website.
+    - #3777 : [Staff][Redeem Transaction]: The formula is not working correctly.
+    - #3778 : [Admin][Dashboard]: The merchant count as two but there is only one merchant.
+    - #3792 : [Customer][Membership Card Number]: The card is not responsive on mobile browser.
+    - #3779 : [Customer][Redeem Point]: Copy button sometime doesn't work.
+    - #NA   : [Website][Earn][Reward]: Fix error on earn and reward page.
+### Changed
+    - #3804 : [Redeem Transaction]: Change the "Amount Left" became "Amount Return" if user get return money.
+    - #3814 : [Redeem Formula]: Make the formula using ceiling.
+### Removed
+
+# =================================================================
+# v1.1.2 (02-09-2021)
+# =================================================================
+### Added
+    - #3717 : [Admin][Plan Order]: Option to download the receipt is missing.
+    - #3684 : Create Autorun Commands.
+    - #3559 : [Merchant][Billing]: Add Change Plan Button.
+    - #3557 : [Merchant][Billing]: Add Upgrade Plan Button.
+    - #3555 : [Master Admin]: Create admin account.
+    - #3565 : [Merchant]: Export report.
+    - #3467 : Offer listing - add condition - Only once per customer.
+### Fixed
+    - #3678 : [Admin]: Several section is not loaded properly when login using new admin account
+    - #3548 : [Staff][Scan QR]: No warning message displayed when user input wrong OTP
+    - #3700 : [Merchant][Plan Subscription Invoice]: Confirm payment button in the invoice email doesn't work.
+    - #3698 : [Admin][Plan Order]: Infinite loading displayed when open plan order page.
+    - #NA   : Wrong payload when creating Store
+    - #3644 : [Merchant][Website]: Split the website URL between customer and staff in two column
+    - #3648 : [Admin][Create Merchant]: Joining fee permits negative value.
+    - #NA   : Wrong payload when creating Store
+    - #NA   : No default timezone_id in businesses table
+    - #NA   : Wrong payload when creating Store
+    - #3644 : [Merchant][Website]: Split the website URL between customer and staff in two column
+    - #3558 : [Merchant][Billing]: Changing plan requires merchant to login back to be permitted the access granted for that new plan.
+    - #3646 : [Merchant][Billing]: User need to reload the page manually after choose the plan.
+    - #3602 : [Redemption][Customer Mobile Number]: Change the redeem reward button after input the OTP.
+    - #3560 : [Upload image]: Add recommendation resolution and maximum image size
+    - #3671 : [Customer][Mobile]: No logout button displayed
+    - #3706 : [Admin][Plan Order]: Merchant and plan are not displayed.
+    - #3710 : [Customer]: Infinite loading happen when accessing several page.
+    - #3711 : [Merchant][Legal]: Unable to change the legal content.
+    - #3655 : [Merchant][Plan Change History]: Infinite loading displayed when user access plan change history page.
+    - #3694 : [Merchant][Store[: No picture is displayed even already upload the picture.
+    - #3697 : [Website][Customer[: Infinite loading displayed on the reward image.
+    - #3731 : [Merchant]: Merchant gains access to see all the stores for other merchants and all the staff of all Merchants.
+    - #3733 : [Merchant][Website]: Click on website URL will log in automatically to customer account.
+    - #3735 : [Staff][Reward][Required Validation]: No warning message displayed when user input wrong OTP.
+    - #3730 : [Admin]: Create new admin will also triggering create new merchant for same email.
+### Changed
+    - #3647 : [Merchant][Billing][Confirm payment]: Change the error message for amount field.
+    - #3659 : [Merchant][Offer listing]: Change Offer label to Reward Offer
+    - #3602 : [Redemption][Customer Mobile Number]: Change the redeem reward button after input the OTP.
+    - #3576 : [Merchant][Customer]: Replace all text "Bill" to "Receipt".
+    - #3601 : [Staff][Earn Points][Scan QR]: Change the earn point by scan QR flow.
+    - #3712 : [Merchant][Webiste]: Conversion Rule name changed to Credit Point Rules.
+    - #3696 : [Merchant][Website]: Confirmation popup when deleting credit convention rule.
+### Removed
+    - #3699 : [Admin][Header]: Remove the version number
+
+# =================================================================
+# v1.1.1 (16-08-2021)
+# =================================================================
+### Added
+    - #3569 : As Admin: Option to change the store working hour, option to select timezone.
+    - #3211 : TimePicker component
+    - #3604 : [Logout]: Add successfully logout popup
+    - #3603 : Customer can see Customer Number on Redeem Page after login when clicking the `Customer Number Button`. Works on both desktop and mobile display.
+### Fixed
+    - #3531 : [Merchant][Customer]: Customer number, membership card number and website are not aligned properly.
+    - #3531 : Overflowing text in data table columns are now properly aligned
+    - #3211 : Time input when editting Offer/Reward listing uses TimePicker component
+    - #3531 : Column header and column data are not aligned properly in datatable. Using v-data-table slots to fix.
+    - #3656 : [Merchant][Store Hour]: No time zone list displayed in the store hour.
+### Changed
+    - #3531 : File app.scss and DataTable Component
+    - #3599 : [Merchant][Add New]: The system will freeze when admin select the city.
+    - #3599 : [Merchant][Add New]: Change select city to input text city.
+    - #3569 : As Staff: Staff can only login during store working hour. Login session will end due to end of working hour.
+### Removed
+
+# =================================================================
+# v1.1.0 (13-08-2021)
+# =================================================================
+### Added
+    - #NA   : Calling `Mail::send` from subscribe() method in `PaypalController`
+    - #NA   : New form component types: `label_only`, `text_only`, `boolean_only` in DataForm component
+    - #NA   : New form items in App\Platform\Models\Reward.php
+    - #NA   : New migration file `2021_08_04_082430_add_day_and_time_in_rewards_table.php`
+    - #3455 : SMS Templates: Admin Dashboard - Merchant Registration
+    - #3456 : SMS Templates: Admin Dashboard - Merchant Payment Confirmation
+    - #3457 : SMS Templates: Merchant Dashboard - Customer Registration
+    - #3458 : SMS Templates: Merchant Dashboard - Customer Point Credit
+    - #3459 : SMS Templates: Merchant Dashboard - Customer Point Redeem
+    - #3460 : SMS Templates: Merchant Dashboard - Customer Point Successful Redemption
+    - #NA   : Invalid or empty phone error message
+    - #NA   : Autofill attribute for text
+    - #NA   : Watcher for country and city to autofill v-select country and city
+    - #3468 : [Admin][Plan]: Add unlimited checkbox for customer & offer listings.
+    - #3451 : Push Notification system
+	- #3569	: As Admin: Option to change the store working hour, option to select timezone.
+### Fixed
+    - #3526 : [Merchant][Staff Members] Merchant can Bypass When Create Staff Limited
+    - #NA   : Fix account id when register a merchant
+    - #3526 : [Merchant][Staff Members] Merchant can Bypass When Create Staff Limited
+    - #3505 : [Admin][Merchant]: The delete button is not visible on 14 inch screen size
+    - #3505 : The delete button is now visible on all screen size
+    - #3211 : [Merchant][Offer Listings][Date Range] Include Custom Features to select by Day, Week, Time of day
+    - #3211 : Merchant can now include custom day and time of day in Offer Listing
+    - #3523 : [Staff][Scan Barcode]: Unable to to redeem on required validation reward
+    - #3523 : Staff can now redeem via scan
+    - #3203 : [Industry Dialogue] The Add button is obstructing view of the navigation buttons.
+    - #3203 : The FAB is now not obstructing nav buttons.
+    - #3531 : [Merchant][Customer]: Customer number, membership card number and website are not aligned properly.
+    - #3531 : Overflowing text in data table columns are now properly aligned
+    - #3531 : [Merchant][Customer]: Customer number, membership card number and website are not aligned properly.
+    - #3531 : Overflowing text in data table columns are now properly aligned
+    - #3540 : [Merchant][Staff]: The 500 error happen and create staff popup is not automatically closed after create the staff
+    - #3546 : [Merchant][Profile]: Merchant localization currency would not commit to changes unless General setting were saved with telephone
+    - #3546 : When saving admin profile, `Invalid Phone` or `Phone is Empty message` is shown when phone is empty or invalid.
+    - #2984 : [Admin][Create Merchant]: Merchant personal information does not autofill from the saved preset history
+    - #2984 : When creating new Merchant as Admin, the profile can now autofilled with saved personal data in client browser
+    - #3213 : [Merchant][Website][Custom Domain]: Fix error add custom domain.
+    - #3554 : [Admin][Payment]: Infinite loading is displayed when open payment page.
+    - #3587 : [Admin][Payment]: Internal server error happen when trying to update the payment method.
+    - #NA   : Static width for action columns
+    - #3510 : [Admin][Merchant][Field]: The text on the field are not clearly visible after click the field.
+    - #3510 : Label of text input in every form is now clearly visible and readable.
+    - #3507 : [Merchant][Payment][Paypal]: The paypal button is too big
+    - #3507 : Size of Paypal logo in Setting->Billing page is now reasonable.
+    - #NA   : Margin classes from `DataTable` component
+    - #3600 : [Merchant][Website]: Website URL is not properly setup.
+    - #4143 : [Merchant][Offer Listing]: Add Max Redemption Per Day Limit
+### Changed
+    - #NA   : Add CSS to table (datatable) class `table-layout: fixed; width: 100%;`
+    - #NA   : Add CSS to td (datatable) class `word-break:break-word; white-space: normal; padding:4px;`
+    - #NA   : Add 10px padding to the first form input in every DataForm component.
+    - #NA   : Modify component css by adding css margin, padding, and height to Paypal button in billing/index.vue
+    - #3521 : [Merchant][Billing]: No email received after user finish the payment.
+    - #3521 : Email notification is now sent when merchant subscription payment via Paypal is success.
+    - #NA   : Modify component css by adding css margin, padding, and height to Paypal button in billing/index.vue
+    - #NA   : Validate customer number OR card number when redeeming via scan barcode (as staff)
+    - #NA   : Moved FAB position to right bottom, but under data table page navigation.
+    - #NA   : File app.scss and DataTable Component
+### Removed

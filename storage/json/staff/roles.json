@@ -1,0 +1,33 @@
+[
+    {
+        "id": 1,
+        "name": "Store Manager",
+        "permissions": [
+            "credit",
+            "reward",
+            "credit-request"
+        ],
+        "editable": false,
+        "deleteable": false
+    },
+    {
+        "id": 2,
+        "name": "Supervisor",
+        "permissions": [
+            "credit",
+            "reward",
+            "credit-request"
+        ],
+        "editable": false,
+        "deleteable": false
+    },
+    {
+        "id": 3,
+        "name": "Cashier",
+        "permissions": [
+            "credit"
+        ],
+        "editable": false,
+        "deleteable": false
+    }
+]

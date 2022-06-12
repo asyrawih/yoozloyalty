@@ -1,0 +1,34 @@
+[
+    {
+        "text": "Cheque",
+        "value": "cheque"
+    },
+    {
+        "text": "Bank Transfer",
+        "value": "bank_transfer"
+    },
+    {
+        "text": "Paypal",
+        "value": "paypal"
+    },
+    {
+        "text": "Lynk",
+        "value": "lynx"
+    },
+    {
+        "text": "Yooz Payment Gateway",
+        "value": "yooz_pg"
+    },
+    {
+        "text": "Paytm",
+        "value": "paytm"
+    },
+    {
+        "text": "PayU",
+        "value": "payu"
+    },
+    {
+        "text": "Instamojo",
+        "value": "instamojo"
+    }
+]

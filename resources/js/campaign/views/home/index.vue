@@ -1,0 +1,363 @@
+<template>
+    <div class="pb-5">
+        <v-container grid-list-lg fluid class="pa-0">
+            <v-layout>
+                <v-flex
+                    class="py-0"
+                    xs12
+                    :style="{
+                        'background-color': campaign.theme.secondaryColor,
+                        color: campaign.theme.secondaryTextColor
+                    }"
+                >
+                    <v-container class="py-0">
+                        <div
+                            v-if="user && user.email_verified_at === null"
+                            class="pt-10"
+                        >
+                            <v-alert class="warning white--text">
+                                <div class="d-flex align-center">
+                                    <p class="mb-0">
+                                        You cannot visit other page, until your
+                                        email verified
+                                    </p>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                        color="primary"
+                                        depressed
+                                        class="white--text"
+                                        :disabled="btnResendDisabled"
+                                        :loading="btnResendLoading"
+                                        @click="emailVerifcationResend()"
+                                        >Resend email verification</v-btn
+                                    >
+                                </div>
+                            </v-alert>
+                        </div>
+                        <v-layout>
+                            <v-flex xs12 md6>
+                                <v-container class="pa-0">
+                                    <v-layout
+                                        :justify-center="
+                                            $vuetify.breakpoint.smAndDown
+                                        "
+                                    >
+                                        <v-flex xs10 md10>
+                                            <div class="my-5 py-3">
+                                                <h1
+                                                    class="display-1 mb-3"
+                                                    v-html="
+                                                        campaign.home
+                                                            .headerTitle
+                                                    "
+                                                ></h1>
+                                                <div
+                                                    v-html="
+                                                        campaign.home
+                                                            .headerContent
+                                                    "
+                                                ></div>
+                                            </div>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-flex>
+                            <v-flex xs6 md v-if="$vuetify.breakpoint.mdAndUp">
+                                <v-img
+                                    v-if="campaign.home.headerImg"
+                                    :src="campaign.home.headerImg"
+                                    :height="campaign.home.headerHeight"
+                                >
+                                    <svg
+                                        version="1.1"
+                                        x="0px"
+                                        y="0px"
+                                        viewBox="0 0 35 216"
+                                        style="enable-background:new 0 0 35 216;height:100%;float:right"
+                                        xml:space="preserve"
+                                    >
+                                        <polygon
+                                            :fill="
+                                                campaign.theme.secondaryColor
+                                            "
+                                            points="35,0 0,216 35,216 "
+                                        />
+                                    </svg>
+                                    <svg
+                                        version="1.1"
+                                        x="0px"
+                                        y="0px"
+                                        viewBox="0 0 35 216"
+                                        style="enable-background:new 0 0 35 216;height:100%;float:left"
+                                        xml:space="preserve"
+                                    >
+                                        <polygon
+                                            :fill="
+                                                campaign.theme.secondaryColor
+                                            "
+                                            points="0,216 35,0 0,0 "
+                                        />
+                                    </svg>
+                                    <template v-slot:placeholder>
+                                        <v-layout
+                                            fill-height
+                                            align-center
+                                            justify-center
+                                            ma-0
+                                        >
+                                            <v-progress-circular
+                                                indeterminate
+                                                :style="{
+                                                    color:
+                                                        campaign.theme
+                                                            .secondaryTextColor
+                                                }"
+                                            ></v-progress-circular>
+                                        </v-layout>
+                                    </template>
+                                </v-img>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container grid-list-lg>
+            <v-layout row wrap>
+                <v-flex xs12>
+                    <div
+                        class="display-1 mb-2 mt-5"
+                        v-html="campaign.home.rewardsTitle"
+                        :style="{ color: campaign.theme.textColor }"
+                    ></div>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container grid-list-lg>
+            <v-layout row wrap>
+                <v-flex
+                    xs12
+                    sm6
+                    md3
+                    v-for="(item, index) in campaign.home.rewards"
+                    :key="'reward_' + index"
+                >
+                    <v-hover>
+                        <template v-slot:default="{ hover }">
+                            <v-card
+                                @click="$router.push({ name: 'rewards' })"
+                                class="card-link"
+                                style="position: relative;"
+                            >
+                                <v-img
+                                    v-if="item.img"
+                                    :src="item.img"
+                                    :aspect-ratio="
+                                        campaign.home.rewardsImgRatio
+                                    "
+                                >
+                                    <template v-slot:placeholder>
+                                        <v-layout
+                                            fill-height
+                                            align-center
+                                            justify-center
+                                            ma-0
+                                        >
+                                            <v-progress-circular
+                                                indeterminate
+                                                :style="{
+                                                    color:
+                                                        campaign.theme.textColor
+                                                }"
+                                            ></v-progress-circular>
+                                        </v-layout>
+                                    </template>
+                                </v-img>
+                                <v-card-title primary-title>
+                                    <div class="text-truncate">
+                                        <h3
+                                            class="subtitle-1 grey--text text--darken-3 mb-2 text-truncate"
+                                            v-html="item.title"
+                                        ></h3>
+                                        <div
+                                            class="grey--text text--darken-1 caption mt-2 mb-2 text-truncate"
+                                            v-if="item.description"
+                                            v-html="item.description"
+                                        ></div>
+                                    </div>
+                                </v-card-title>
+                                <v-fade-transition>
+                                    <v-overlay
+                                        v-if="hover"
+                                        absolute
+                                        color="#000"
+                                    >
+                                    </v-overlay>
+                                </v-fade-transition>
+                            </v-card>
+                        </template>
+                    </v-hover>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container
+            grid-list-lg
+            class="elevation-1 white mt-5 pa-5"
+            v-if="
+                Object.keys(campaign.home.blocks).length > 0 ||
+                    campaign.home.blocksTitle
+            "
+        >
+            <v-layout row wrap v-if="campaign.home.blocksTitle">
+                <v-flex xs12>
+                    <div
+                        class="display-1 mt-0 mb-4"
+                        v-html="campaign.home.blocksTitle"
+                    ></div>
+                </v-flex>
+            </v-layout>
+            <v-layout
+                row
+                wrap
+                v-if="Object.keys(campaign.home.blocks).length > 0"
+            >
+                <v-flex
+                    xs12
+                    sm4
+                    class="pa-2"
+                    v-for="(item, index) in campaign.home.blocks"
+                    :key="'content_' + index"
+                >
+                    <v-img
+                        v-if="item.img"
+                        :src="item.img"
+                        :aspect-ratio="campaign.home.blocksImgRatio"
+                        class="elevation-1"
+                    >
+                        <template v-slot:placeholder>
+                            <v-layout
+                                fill-height
+                                align-center
+                                justify-center
+                                ma-0
+                            >
+                                <v-progress-circular
+                                    indeterminate
+                                    :style="{ color: campaign.theme.textColor }"
+                                ></v-progress-circular>
+                            </v-layout>
+                        </template>
+                    </v-img>
+                    <v-card-title primary-title class="pa-0 my-3">
+                        <div>
+                            <h3
+                                class="title mb-2 grey--text text--darken-3"
+                                v-html="item.title"
+                            ></h3>
+                            <div
+                                class="grey--text text--darken-1 body-1"
+                                v-html="item.text"
+                            ></div>
+                        </div>
+                    </v-card-title>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-dialog v-model="isJustLoggedOut" persistent max-width="320">
+            <v-card>
+                <v-card-text class="title pt-5">
+                    <div class="text-center" style="overflow:visible">
+                        <div class="circle-cover">
+                            <v-icon
+                                size="100"
+                                class="tab-icon"
+                            >check</v-icon>
+                        </div>
+                        <p class="mt-5 mb-0 pb-0">You have logged out<br>succesfully</p>
+                    </div>
+                </v-card-text>
+                <v-card-actions class="pb-5">
+                    <v-btn color="primary" block @click="closeTheLoggedOutPopupDialog">OK</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </div>
+</template>
+<script>
+export default {
+    name: "app",
+    computed: {
+        campaign() {
+            return this.$store.state.app.campaign;
+        },
+        user() {
+            return this.$auth.user();
+        }
+    },
+    data() {
+        return {
+            btnResendLoading: false,
+            btnResendDisabled: false,
+            isJustLoggedOut: false,
+            customOverflow: ''
+        };
+    },
+    created(){
+        this.isJustLoggedOut = this.$store.getters.isJustLoggedOut
+    },
+    mounted(){
+        this.loadsChatWidgets()
+        var that = this
+        this.$nextTick(function () {
+            that.customOverflow = 'overflow-y:visible';
+        })
+    },
+    methods: {
+        loadsChatWidgets(){
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/54d34cdcb37d8bc7b1c0239d/1fuoh7io3';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+            })();
+        },
+        emailVerifcationResend() {
+            this.btnResendLoading = true;
+            axios
+                .get("/campaign/auth/email/resend", {
+                    params: {
+                        locale: this.$i18n.locale,
+                        uuid: this.campaign.uuid
+                    }
+                })
+                .then(response => {
+                    this.$root.$snackbar(
+                        "Email verification send, please check your email"
+                    );
+                    this.btnResendDisabled = true;
+                    this.btnResendLoading = false;
+                });
+        },
+        closeTheLoggedOutPopupDialog() {
+            this.isJustLoggedOut = false
+            this.$store.dispatch('setJustLoggedOut', this.isJustLoggedOut);
+        }
+    }
+};
+</script>
+<style scoped>
+    .circle-cover{
+        background-color:#1976d2 !important;
+        border-color:#1976d2 !important;
+        border-radius:100px;
+        margin:0px auto;
+        display: inline-block;
+    }
+    .tab-icon{
+        color:white;
+    }
+</style>

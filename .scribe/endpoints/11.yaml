@@ -1,0 +1,37 @@
+name: 'Staff History'
+description: |-
+
+  Endpoints for staff related to reward redemption history
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/staff/history
+    metadata:
+      title: 'Get staff member history.'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"error":"Unauthorized"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '36'
+        description: null
+    responseFields: []

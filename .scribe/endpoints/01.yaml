@@ -1,0 +1,334 @@
+name: 'Customer Auth'
+description: |-
+
+  Endpoints for customer authentication
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/register
+    metadata:
+      title: 'Handle user registration.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+      name:
+        name: name
+        description: 'Full name of the user.'
+        required: true
+        example: 'John Doe'
+        type: string
+      email:
+        name: email
+        description: 'User''s email.'
+        required: true
+        example: johndoe@internet.com
+        type: string
+      country_isd_code:
+        name: country_isd_code
+        description: 'User''s phone number.'
+        required: true
+        example: 62
+        type: integer
+      customer_number:
+        name: customer_number
+        description: 'User''s phone number.'
+        required: true
+        example: 8123456789
+        type: integer
+      password:
+        name: password
+        description: Password.
+        required: true
+        example: password
+        type: string
+      terms:
+        name: terms
+        description: ': 0, 1'
+        required: true
+        example: true
+        type: boolean
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/loginApp
+    metadata:
+      title: 'Handle user login.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 64 characters.'
+        required: true
+        example: grassbcqlnildmhawvnkuvdcfubforoohtkgtmnqbarmzyetj
+        type: string
+      password:
+        name: password
+        description: 'Must be at least 6 characters. Must not be greater than 24 characters.'
+        required: true
+        example: ytglguykal
+        type: string
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/campaign/auth/refresh
+    metadata:
+      title: 'Refresh authorization token.'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"error":"refresh_token_error"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '50'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/password/reset
+    metadata:
+      title: 'Send a password reset email.'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 64 characters.'
+        required: true
+        example: doarcxmwrdt
+        type: string
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/campaign/auth/user
+    metadata:
+      title: 'Get user info .'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: cum
+        type: string
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"error":"Unauthorized"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '47'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/campaign/auth/website
+    metadata:
+      title: 'Get detailed joined website of user.'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"error":"Unauthorized"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '46'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/logout
+    metadata:
+      title: 'Handle user logout.'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/profile
+    metadata:
+      title: 'Update profile.'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+      name:
+        name: name
+        description: 'Must be at least 2 characters. Must not be greater than 32 characters.'
+        required: true
+        example: jjbhz
+        type: string
+      email:
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 64 characters.'
+        required: true
+        example: pmkbxzhjdbtccmylwtvu
+        type: string
+      new_password:
+        name: new_password
+        description: 'New Password leave empty if you don''t want to change the password.'
+        required: false
+        example: password
+        type: string
+      current_password:
+        name: current_password
+        description: 'Must be at least 8 characters. Must not be greater than 24 characters.'
+        required: true
+        example: qcsuyfvjmfvobjshcou
+        type: string
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: api/campaign/auth/otp
+    metadata:
+      title: 'Request OTP for customer for any purpose'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters:
+      uuid:
+        name: uuid
+        description: 'uuid of website.'
+        required: true
+        example: 283ca865-a71c-4d4a-b8cb-8c46c5b3ca57
+        type: string
+      purpose:
+        name: purpose
+        description: string.
+        required: false
+        example: illum
+        type: string
+    bodyParameters:
+      purpose:
+        name: purpose
+        description: ''
+        required: true
+        example: est
+        type: string
+    responses:
+      -
+        status: 200
+        content: '{"error":"Unauthorized"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '45'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/campaign/auth/otp
+    metadata:
+      title: 'Verify OTP code'
+      description: ''
+      authenticated: true
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      code:
+        name: code
+        description: ''
+        required: true
+        example: nulla
+        type: string
+    responses: []
+    responseFields: []

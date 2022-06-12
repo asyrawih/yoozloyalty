@@ -1,0 +1,38 @@
+[
+    {
+        "value": 1,
+        "text": "Active"
+    },
+    {
+        "value": 2,
+        "text": "Inactive"
+    },
+    {
+        "value": 3,
+        "text": "Deactivated"
+    },
+    {
+        "value": 4,
+        "text": "Successful"
+    },
+    {
+        "value": 5,
+        "text": "Failed"
+    },
+    {
+        "value": 6,
+        "text": "Void"
+    },
+    {
+        "value": 7,
+        "text": "Pending"
+    },
+    {
+        "value": 8,
+        "text": "Completed"
+    },
+    {
+        "value": 9,
+        "text": "PermanentPending"
+    }
+]

@@ -1,0 +1,366 @@
+name: Loyalty System CI-CD pipeline
+
+on:
+  push:
+    branches:
+        - develop
+    tags:        
+        - 'v[0-9].[0-9].[0-9]' # Push events to any matching semantic tag. For example, 1.10.1 or 2.0.0.     
+  pull_request:
+    branches: [develop, master]     
+    types: [opened, synchronize, reopened]
+  release:  #release created events trigger pipeline
+    types: [published,edited]
+
+jobs:
+  build-js:
+    name: Build Js/Css
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+            npm- 
+      - name: Npm Build
+        run: |
+          npm install
+          npm run prod
+          cat public/mix-manifest.json
+      - name: Upload build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: assets
+          path: public
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-18.04  
+    services:
+    # Label used to access the service container
+      mariadb:
+        image:  mariadb:10.5.12
+        ports:
+        # Opens tcp port 3306 on the host and service container
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: xyind
+          MYSQL_PASSWORD: xyind12345
+          MYSQL_DATABASE: loyalty_system
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+            echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0      
+
+      - uses: actions/cache@v2
+        with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+                ${{ runner.os }}-composer-    
+
+      - name: Install Dependencies
+        run: |
+            composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+            composer update
+
+
+      - name: Setup database for unit testing
+        run: |
+          sudo service mysql start
+          echo "Verify MySQL connection"
+          mysql --host ${DB_HOST} --port ${{ job.services.mariadb.ports['3306'] }} -u${MYSQL_USER} -p${MYSQL_PASSWORD}  -e "SHOW DATABASES"
+          mysql --host ${DB_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD}  ${MYSQL_DATABASE} --port ${{ job.services.mariadb.ports['3306'] }} < loyalty.sql
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          yes | php artisan jwt:secret
+          chmod -R 777 storage bootstrap/cache
+          php artisan migrate
+          echo "Running php unit tests"
+          php artisan test
+        env:
+          php-ini-values: post_max_size=50M
+          MYSQL_DATABASE: loyalty_system
+          MYSQL_USER: xyind
+          MYSQL_PASSWORD: xyind12345
+          DB_HOST: 127.0.0.1
+          DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
+          DB_DATABASE: loyalty_system
+          DB_USERNAME: xyind
+          DB_PASSWORD: xyind12345
+
+  deploy-loyalty:
+    needs: [build-js, tests]
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    name: Deployment to yoozloyalty
+    runs-on: ubuntu-latest
+    environment:
+            name: staging
+            url: https://yoozloyalty.net
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRIVATE_KEY }}
+          name: yoozloyalty
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: |
+            Host yoozloyalty
+              HostName yoozloyalty.net
+              User centos
+              IdentityFile ~/.ssh/yoozloyalty      
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+            echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+                ${{ runner.os }}-composer-    
+
+      - name: Install Dependencies
+        run: |
+           composer install -q --no-ansi --no-interaction --no-scripts --no-progress 
+           composer update
+
+      - name: Setup Deployer for Yooz Loyalty
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        uses: deployphp/action@master
+        with:
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          known-hosts: ${{ secrets.KNOWN_HOSTS }}
+          dep: deploy staging -o ControlPath=~/tmp/control-%h-%p-%r -vvv  
+
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address:
+          server_address: in-v3.mailjet.com
+          # Required mail server port:
+          server_port: 587
+          # Optional (recommended): mail server username:
+          username: ${{ secrets.MAIL_USERNAME }}
+          # Optional (recommended) mail server password:
+          password: ${{ secrets.MAIL_PASSWORD }}
+          # Required mail subject:
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # Required recipients' addresses:
+          to: rogers@kartpay.com,qudrat@kartpay.com,albertto@kartpay.com,m3th3lesh@kartpay.com,muhamad@kartpay.com,ahmad@kartpay.com,abdi@kartpay.com,dimas@kartpay.com
+          # Required sender full name (address can be skipped):
+          from: GitHub Actions <support@kartpay.me>
+          body: |
+              ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+              Check here: 
+              https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          reply_to: support@kartpay.com
+          # Optional unsigned/invalid certificates allowance:
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          priority: low 
+
+  deploy-nearbyreward:
+    needs: [build-js, tests]
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    name: Deployment to Nearbyreward
+    runs-on: ubuntu-latest
+    environment:
+            name: nearbyreward
+            url: https://nearbyreward.com
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.NEARBYREWARD_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.NEARBYREWARD_KNOWN_HOSTS }}
+          name: nearbyreward
+          config: |
+            Host nearbyreward
+              HostName nearbyreward.com
+              User centos
+              IdentityFile ~/.ssh/nearbyreward    
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+            echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+                ${{ runner.os }}-composer-    
+
+      - name: Install Dependencies
+        run: |
+            composer install -q --no-ansi --no-interaction --no-scripts --no-progress 
+            composer update
+
+      - name: Setup Deployer for NearbyReward
+        uses: deployphp/action@master
+        with:
+          private-key: ${{ secrets.NEARBYREWARD_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.NEARBYREWARD_KNOWN_HOSTS }}
+          dep: deploy nearbyreward -o ControlPath=~/tmp/control-%h-%p-%r -vvv  
+
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address:
+          server_address: in-v3.mailjet.com
+          # Required mail server port:
+          server_port: 587
+          # Optional (recommended): mail server username:
+          username: ${{ secrets.MAIL_USERNAME }}
+          # Optional (recommended) mail server password:
+          password: ${{ secrets.MAIL_PASSWORD }}
+          # Required mail subject:
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # Required recipients' addresses
+          to: rogers@kartpay.com,qudrat@kartpay.com,albertto@kartpay.com,m3th3lesh@kartpay.com,muhamad@kartpay.com,ahmad@kartpay.com,abdi@kartpay.com,dimas@kartpay.com
+          # Required sender full name (address can be skipped):
+          from: GitHub Actions <support@kartpay.me>
+          body: |
+              ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+              Check here: 
+              https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          reply_to: support@kartpay.com
+          # Optional unsigned/invalid certificates allowance:
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          priority: low        
+        
+
+  deploy-production:
+    needs: [build-js, tests]
+    if: github.event_name == 'release' && github.event.ref_type == 'tag' && startsWith(github.event.ref, 'v')
+    name: Deployment to Production
+    runs-on: ubuntu-latest
+    environment:
+            name: production
+            url: https://yoozloyalty.com
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build assets
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: public
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}    
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+            echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - uses: actions/cache@v2
+        with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+                ${{ runner.os }}-composer-    
+
+      - name: Install Dependencies
+        run: |
+            composer install -q --no-ansi --no-interaction --no-scripts --no-progress 
+            composer update
+
+      - name: Setup Deployer for production
+        uses: deployphp/action@master
+        with:
+          private-key: ${{ secrets.PROD_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.PROD_KNOWN_HOSTS }}
+          dep: deploy production -o ControlPath=~/tmp/control-%h-%p-%r -vvv
+
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          # Required mail server address:
+          server_address: in-v3.mailjet.com
+          # Required mail server port:
+          server_port: 587
+          # Optional (recommended): mail server username:
+          username: ${{ secrets.MAIL_USERNAME }}
+          # Optional (recommended) mail server password:
+          password: ${{ secrets.MAIL_PASSWORD }}
+          # Required mail subject:
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # Required recipients' addresses
+          to: rogers@kartpay.com,qudrat@kartpay.com,albertto@kartpay.com,m3th3lesh@kartpay.com,muhamad@kartpay.com,ahmad@kartpay.com,abdi@kartpay.com,dimas@kartpay.com
+          # Required sender full name (address can be skipped):
+          from: GitHub Actions <support@kartpay.me>
+          body: |
+              ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has a status ${{ job.status }}
+              Check here: 
+              https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          reply_to: support@kartpay.com
+          # Optional unsigned/invalid certificates allowance:
+          ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          convert_markdown: true
+          priority: low
+     

@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "code": "AF",
+        "name": "Afghanistan",
+        "phonecode": "93"
+    },
+    {
+        "id": "2",
+        "code": "AL",
+        "name": "Albania",
+        "phonecode": "355"
+    },
+    {
+        "id": "3",
+        "code": "DZ",
+        "name": "Algeria",
+        "phonecode": "213"
+    },
+    {
+        "id": "4",
+        "code": "AS",
+        "name": "American Samoa",
+        "phonecode": "1684"
+    },
+    {
+        "id": "5",
+        "code": "AD",
+        "name": "Andorra",
+        "phonecode": "376"
+    }
+]

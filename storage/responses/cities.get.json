@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "name": "Bombuflat",
+        "state_id": "1"
+    },
+    {
+        "id": "2",
+        "name": "Garacharma",
+        "state_id": "1"
+    },
+    {
+        "id": "3",
+        "name": "Port Blair",
+        "state_id": "1"
+    },
+    {
+        "id": "4",
+        "name": "Rangat",
+        "state_id": "1"
+    },
+    {
+        "id": "5",
+        "name": "Addanki",
+        "state_id": "2"
+    }
+]

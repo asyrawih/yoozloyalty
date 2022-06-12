@@ -1,0 +1,6 @@
+{
+    "name": "https:\/\/loyalty-system.test Queue",
+    "interpreter": "php",
+    "script": "artisan",
+    "args": "queue:work --queue=default,billings,emails,sms"
+}
